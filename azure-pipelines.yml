@@ -37,13 +37,14 @@ stages:
             workingDirectory: $(rootFolder)
             displayName: 'Composer install dev'
 
-          - script: './vendor/bin/phpunit --log-junit TEST-RESULTS.xml'
+          - script: './vendor/bin/phpunit'
             displayName: 'Run tests with phpunit'
 
-          - task: PublishTestResults@2
-            inputs:
-              testRunner: 'JUnit'
-              testResultsFiles: '**/TEST-*.xml'
+#          - task: PublishTestResults@2
+#            inputs:
+#              testRunner: 'JUnit'
+#              testResultsFiles: '**/TEST-*.xml'
+
           - task: ArchiveFiles@2
             displayName: 'Archive files'
             inputs:

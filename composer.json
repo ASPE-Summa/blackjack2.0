@@ -1,10 +1,23 @@
 {
-    "autoload": {
-        "classmap": [
-             "src"
-        ]
-    },
+    "name": "aspe/blackjack",
     "require-dev": {
         "phpunit/phpunit": "^10.3"
-    }
+    },
+    "autoload": {
+        "psr-4": {
+             "Aspe\\Blackjack\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aspe\\Blackjack\\": "test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peter Askey",
+            "email": "aspe@summacollege.nl"
+        }
+    ]
+
 }

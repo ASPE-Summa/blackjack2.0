@@ -1,6 +1,13 @@
 <?php
 
-class ScoreCalculator
+declare(strict_types=1);
+
+namespace Aspe\Blackjack;
+
+use Aspe\Blackjack\Interfaces\ScoreCalculatorInterface;
+use InvalidArgumentException;
+
+final class ScoreCalculator implements ScoreCalculatorInterface
 {
     /**
      * calculateTotal
@@ -20,6 +27,9 @@ class ScoreCalculator
                 $total += 10;
             } else if ($firstCharacter == 'a') {
                 $aces++;
+            }
+            else{
+                throw new InvalidArgumentException(sprintf("The given combination of characters do not represent a valid card: %s", $card));
             }
         }
 

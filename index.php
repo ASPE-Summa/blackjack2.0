@@ -1,5 +1,8 @@
 <?php
-require 'src/GameManager.php';
+declare(strict_types=1);
+
+use Aspe\Blackjack\GameManager;
+
 session_start();
 
 $gm = new GameManager();
@@ -22,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div>
             <?php
             foreach ($_SESSION['playerHand'] as $cardInHand) {
-                echo sprintf('<img src="%s" style="height:100px;">', $GLOBALS['cards'][$cardInHand]);
+                echo sprintf('<img src="%s" style="height:100px;">', $gm->cards[$cardInHand]);
             }
             ?>
         </div>
@@ -33,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div>
             <?php
             foreach ($_SESSION['computerHand'] as $cardInHand) {
-                echo sprintf('<img src="%s" style="height:100px;">', $GLOBALS['cards'][$cardInHand]);
+                echo sprintf('<img src="%s" style="height:100px;">', $gm->cards[$cardInHand]);
             }
             ?>
         </div>

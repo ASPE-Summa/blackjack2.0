@@ -1,12 +1,16 @@
 <?php
 
-require 'ScoreCalculator.php';
+declare(strict_types=1);
 
-class GameManager{
-    public $deck;
-    public $playerHand;
-    public $computerHand;
-    public $cards = [
+namespace Aspe\Blackjack;
+
+use Aspe\Blackjack\Interfaces\ScoreCalculatorInterface;
+
+final class GameManager{
+    public array $deck;
+    public array $playerHand;
+    public array $computerHand;
+    public array $cards = [
         '2c' => 'cards/2_of_clubs.png',
         '2d' => 'cards/2_of_diamonds.png',
         '2h' => 'cards/2_of_hearts.png',
@@ -60,10 +64,10 @@ class GameManager{
         'kh' => 'cards/king_of_hearts.png',
         'ks' => 'cards/king_of_spades.png',
     ];
-    public $playerTotal;
-    public $cpuTotal;
+    public int $playerTotal;
+    public int $cpuTotal;
 
-    private $scoreCalculator;
+    private ScoreCalculatorInterface $scoreCalculator;
 
     function __construct(){
         $this->init();
@@ -77,7 +81,7 @@ class GameManager{
      *
      * @return void
      */
-    function handlePost()
+    public function handlePost(): void
     {
         if (isset($_POST['hit'])) {
             $this->hit(Players::Player);
@@ -86,7 +90,7 @@ class GameManager{
             }
         } else if (isset($_POST['reset'])) {
             session_destroy();
-            return header("Location: index.php");
+            header("Location: index.php");
         } else if (isset($_POST['stand'])) {
             $this->stand();
         }
@@ -152,7 +156,7 @@ class GameManager{
      *
      * @return void
      */
-    private function init()
+    private function init(): void
     {
         if (!isset($_SESSION['computerHand'])) {
             $_SESSION['computerHand'] = [];

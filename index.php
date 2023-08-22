@@ -1,8 +1,12 @@
 <?php
-require 'functions.php';
+require 'src/GameManager.php';
 session_start();
-init();
-handlePost();
+
+$gm = new GameManager();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $gm->handlePost();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +14,7 @@ handlePost();
 <body>
     <?php
     if(isset($_POST['stand'])){
-        echo calculateWinner();
+        echo $gm->calculateWinner();
     }
     ?>
     <div>
@@ -22,7 +26,7 @@ handlePost();
             }
             ?>
         </div>
-        <p>total: <?= calculateTotal($_SESSION['playerHand']); ?></p>
+        <p>total: <?= $gm->playerTotal; ?></p>
     </div>
     <div>
         <h2>Computer Hand</h2>
@@ -33,10 +37,10 @@ handlePost();
             }
             ?>
         </div>
-        <p>total: <?= calculateTotal($_SESSION['computerHand']); ?></p>
+        <p>total: <?= $gm->cpuTotal ?></p>
     </div>
     <form action="index.php" method="POST">
-        <input type="submit" name="hit" value="Hit" <?= calculateTotal($_SESSION['playerHand']) >= 21 ? 'disabled' : '' ?>/>
+        <input type="submit" name="hit" value="Hit" <?= $gm->playerTotal >= 21 ? 'disabled' : '' ?>/>
         <input type="submit" name="stand" value="Stand" />
         <input type="submit" name="reset" value="Reset" />
     </form>

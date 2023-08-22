@@ -37,6 +37,17 @@ stages:
             workingDirectory: $(rootFolder)
             displayName: 'Composer install dev'
 
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: |
+                **/**
+                !**/.git/**
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+              CleanTargetFolder: true
+              OverWrite: true
+            displayName: 'Copy files to publish directory'
+            
 #          - script: './vendor/bin/phpunit'
 #            displayName: 'Run tests with phpunit'
 

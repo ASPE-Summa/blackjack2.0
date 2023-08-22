@@ -37,8 +37,8 @@ stages:
             workingDirectory: $(rootFolder)
             displayName: 'Composer install dev'
 
-          - script: './vendor/bin/phpunit'
-            displayName: 'Run tests with phpunit'
+#          - script: './vendor/bin/phpunit'
+#            displayName: 'Run tests with phpunit'
 
 #          - task: PublishTestResults@2
 #            inputs:

@@ -59,4 +59,4 @@ steps:
   inputs:
     azureSubscription: 'Azure for Students(6fe2560e-f4f7-4f9c-a795-25e76b14826e)'
     Action: 'Restart Azure App Service'
-    WebAppName: 'ASPEAPP'
+    WebAppName: 'ASPE2'

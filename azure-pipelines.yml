@@ -48,7 +48,7 @@ stages:
               OverWrite: true
             displayName: 'Copy files to publish directory'
 
-          - script: './vendor/bin/phpunit'
+          - script: './vendor/bin/phpunit --verbose'
             displayName: 'Run tests with phpunit'
 
 #          - task: PublishTestResults@2

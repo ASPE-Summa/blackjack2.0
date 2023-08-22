@@ -51,12 +51,15 @@ stages:
               rootFolderOrFile: $(Build.ArtifactStagingDirectory)
               includeRootFolder: false
               archiveType: 'zip'
-              archiveFile: $(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip
+              archiveFile: '$(Build.ArtifactStagingDirectory)/release/release.zip'
               replaceExistingArchive: true
 
-          - upload: $(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip
-            displayName: 'Upload package'
-            artifact: drop
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/release'
+              ArtifactName: 'release'
+              publishLocation: 'Container'
+              StoreAsTar: false
 
   - stage: Deploy
     displayName: 'Deploy Web App'
@@ -71,52 +74,24 @@ stages:
           runOnce:
             deploy:
               steps:
-                - task: AzureWebApp@1
-                  displayName: 'Deploy Azure Web App'
+                - task: DownloadBuildArtifacts@1
                   inputs:
-                    azureSubscription: $(azureSubscription)
-                    appName: $(webAppName)
-                    package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: 'release'
+                    downloadPath: '$(System.DefaultWorkingDirectory)'
 
-#steps:
-#  - task: CopyFiles@2
-#    inputs:
-#      SourceFolder: '$(Build.SourcesDirectory)'
-#      Contents: |
-#        **/**
-#        !**/.git/**
-#      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-#      CleanTargetFolder: true
-#      OverWrite: true
-#    displayName: 'Copy files to publish directory'
+                - task: AzureRmWebAppDeployment@4
+                  inputs:
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: '$(azureSubscription)'
+                    appType: 'webAppLinux'
+                    WebAppName: '$(webAppName)'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+                    RuntimeStack: 'PHP|8.1'
 
-
-
-#  - task: PublishBuildArtifacts@1
-#    inputs:
-#      PathtoPublish: '$(Build.ArtifactStagingDirectory)/release'
-#      ArtifactName: 'release'
-#      publishLocation: 'Container'
-#      StoreAsTar: false
-#
-#  - task: DownloadBuildArtifacts@1
-#    inputs:
-#      buildType: 'current'
-#      downloadType: 'single'
-#      artifactName: 'release'
-#      downloadPath: '$(System.DefaultWorkingDirectory)'
-#
-#  - task: AzureRmWebAppDeployment@4
-#    inputs:
-#      ConnectionType: 'AzureRM'
-#      azureSubscription: '$(azureSubscription)'
-#      appType: 'webAppLinux'
-#      WebAppName: '$(webAppName)'
-#      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-#      RuntimeStack: 'PHP|8.1'
-#
-#  - task: AzureAppServiceManage@0
-#    inputs:
-#      azureSubscription: '$(azureSubscription)'
-#      Action: 'Restart Azure App Service'
-#      WebAppName: '$(webAppName)'
+                - task: AzureAppServiceManage@0
+                  inputs:
+                    azureSubscription: '$(azureSubscription)'
+                    Action: 'Restart Azure App Service'
+                    WebAppName: '$(webAppName)'

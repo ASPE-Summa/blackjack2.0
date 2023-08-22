@@ -51,7 +51,7 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure for Students(6fe2560e-f4f7-4f9c-a795-25e76b14826e)'
     appType: 'webAppLinux'
-    WebAppName: 'ASPEAPP'
+    WebAppName: 'ASPE2'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
     RuntimeStack: 'PHP|8.1'
 

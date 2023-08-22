@@ -11,6 +11,7 @@ variables:
   webAppName: 'ASPE2'
   vmImageName: 'ubuntu-latest'
   rootFolder: $(System.DefaultWorkingDirectory)
+  environmentName: 'Test'
 
 stages:
   - stage: Build
@@ -43,7 +44,6 @@ stages:
             inputs:
               testRunner: 'JUnit'
               testResultsFiles: '**/TEST-*.xml'
-
           - task: ArchiveFiles@2
             displayName: 'Archive files'
             inputs:
@@ -65,16 +65,17 @@ stages:
       - deployment: DeploymentJob
         pool:
           vmImage: $(vmImageName)
-          strategy:
-            runOnce:
-              deploy:
-                steps:
-                  - task: AzureWebApp@1
-                    displayName: 'Deploy Azure Web App'
-                    inputs:
-                      azureSubscription: $(azureSubscription)
-                      appName: $(webAppName)
-                      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+        environment: $(environmentName)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  displayName: 'Deploy Azure Web App'
+                  inputs:
+                    azureSubscription: $(azureSubscription)
+                    appName: $(webAppName)
+                    package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
 
 #steps:
 #  - task: CopyFiles@2

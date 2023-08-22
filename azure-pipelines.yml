@@ -47,9 +47,9 @@ stages:
               CleanTargetFolder: true
               OverWrite: true
             displayName: 'Copy files to publish directory'
-            
-#          - script: './vendor/bin/phpunit'
-#            displayName: 'Run tests with phpunit'
+
+          - script: './vendor/bin/phpunit'
+            displayName: 'Run tests with phpunit'
 
 #          - task: PublishTestResults@2
 #            inputs:

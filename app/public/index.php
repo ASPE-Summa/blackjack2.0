@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use Aspe\Blackjack\GameManager;
 
+require __DIR__ . '/../vendor/autoload.php';
+
 session_start();
 
 $gm = new GameManager();

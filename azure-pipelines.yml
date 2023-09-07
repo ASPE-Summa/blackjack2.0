@@ -7,7 +7,7 @@ trigger:
   - master
 
 variables:
-  azureSubscription: 'Azure for Students(6fe2560e-f4f7-4f9c-a795-25e76b14826e)'
+  azureSubscription: '$(azureSubscription)'
   webAppName: 'ASPE2'
   vmImageName: 'ubuntu-latest'
   rootFolder: $(System.DefaultWorkingDirectory)
